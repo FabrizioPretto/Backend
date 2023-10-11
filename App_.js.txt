@@ -1,0 +1,109 @@
+function App() {
+
+  class ProductManager {
+
+    constructor() {
+      this.events = [];
+      this.products = [];
+    }
+
+
+    addProduct(code, title, description, price, stock) {
+
+      const product = {
+        code,
+        id: this.getMaxId() + 1,
+        title,
+        description,
+        price,
+        thumbnail: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6fqNctbH-3InI1fsCGdV2iI0mnT-ZdaUhSA&usqp=CAU",
+        stock
+      };
+
+      this.products.push(product);
+    }
+
+
+    existCode(n) {
+      if (this.products.includes(product => product.code === n)) {
+        return true;
+      }
+      else
+        return false;
+    }
+
+    getMaxId() {
+      let maxId = 0;
+      this.products.map((event) => {
+        if (event.id > maxId) maxId = event.id;
+      })
+      return maxId;
+    };
+
+    getEvents() {
+      return this.events;
+    }
+
+    getProducts() {
+      if (this.products.length != 0)
+        console.log(this.products);
+      else
+        alert("No hay productos ingresados");
+    }
+
+    getProductById(lookFor) {
+      let position = this.products.find((product) => product.id === lookFor)
+      return position;
+    }
+
+  }
+
+
+  let opcion1 = 'Agregar un nuevo producto: ';
+  let opcion2 = 'Ver todos los Productos: ';
+  let opcion3 = 'Buscar Producto por código: ';
+
+  let choice = "";
+
+  const productManager = new ProductManager();
+
+  while (choice != 9) {
+    let choice = parseInt(prompt("¡Bienvenido!\nPor favor ingrese un valor para la opción elegida:\n\n1 "
+      + opcion1 + "\n2 " + opcion2 + "\n3 " + opcion3 + "\n\n9 Salir"));
+    switch (choice) {
+      case (1):
+        let code = parseInt(prompt("Por favor ingrese el código del producto: "));
+        let result = productManager.existCode(code);
+        if (result == false) {
+          let title = prompt("Por favor ingrese nombre del producto: ");
+          let description = prompt("Por favor ingrese descripción del producto: ");
+          let price = parseFloat(prompt("Por favor ingrese precio del producto: "));
+          let stock = parseInt(prompt("Por favor ingrese stock del producto: "));
+          productManager.addProduct(code, title, description, price, stock);
+        }
+        else {
+          alert("El código de producto ya existe");
+          break
+        };
+      case (2):
+        productManager.getProducts();
+        break;
+      case (3):
+        let lookFor = parseInt(prompt("Por favor ingrese el código de producto a buscar: "));
+        let i = productManager.getProductById(lookFor);
+        if (i !== undefined)
+          console.log(productManager.this.products[i]);
+        else
+          console.log("Producto no encontrado...");
+        break;
+      case (9):
+        break;
+      default:
+        alert("Por favor seleccione uno de los valores predefinidos");
+        break;
+    }
+  }
+
+}
+
+export default App;
